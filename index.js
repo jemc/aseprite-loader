@@ -106,10 +106,10 @@ function asepriteLoader(source) {
             tilesetId: tileset.externalFile.tilesetId,
           }
         : undefined,
-      rawTilesetData: cel.rawTilesetData
+      rawTilesetData: tileset.rawTilesetData
         ? // We send this as a string over the wire instead of an array to reduce the output filesize.
-          cel.rawTilesetData.toString("hex")
-        : cel.rawTilesetData,
+          tileset.rawTilesetData.toString("hex")
+        : tileset.rawTilesetData,
     })),
     palette: ase.palette
       ? {
