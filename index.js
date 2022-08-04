@@ -34,6 +34,16 @@ function asepriteLoader(source) {
           celType: cel.celType,
           w: cel.w,
           h: cel.h,
+          tilemapMetadata: cel.tilemapMetadata
+            ? {
+                bitsPerTile: cel.tilemapMetadata.bitsPerTile,
+                bitmaskForTileId: cel.tilemapMetadata.bitmaskForTileId,
+                bitmaskForXFlip: cel.tilemapMetadata.bitmaskForXFlip,
+                bitmaskForYFlip: cel.tilemapMetadata.bitmaskForYFlip,
+                bitmaskFor90CWRotation:
+                  cel.tilemapMetadata.bitmaskFor90CWRotation,
+              }
+            : undefined,
           rawCelData: cel.rawCelData
             ? // We send this as a string over the wire instead of an array to reduce the output filesize.
               cel.rawCelData.toString("hex")
@@ -50,6 +60,32 @@ function asepriteLoader(source) {
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       name: layer.name,
+      tilesetIndex: layer.tilesetIndex,
+    })),
+    slices: ase.slices.map((slice) => ({
+      flags: slice.flags,
+      name: string,
+      keys: slice.keys.map((key) => ({
+        frameNumber: key.frameNumber,
+        x: key.x,
+        y: key.y,
+        width: key.width,
+        height: key.height,
+        patch: key.patch
+          ? {
+              x: key.patch.x,
+              y: key.patch.y,
+              width: key.patch.width,
+              height: key.patch.height,
+            }
+          : undefined,
+        pivot: key.pivot
+          ? {
+              x: key.pivot.x,
+              y: key.pivot.y,
+            }
+          : undefined,
+      })),
     })),
     tags: ase.tags.map((tag) => ({
       name: tag.name,
@@ -57,6 +93,23 @@ function asepriteLoader(source) {
       to: tag.to,
       animDirection: tag.animDirection,
       color: tag.color,
+    })),
+    tilesets: ase.tilesets.map((tileset) => ({
+      id: tileset.id,
+      tileCount: tileset.tileCount,
+      tileWidth: tileset.tileWidth,
+      tileHeight: tileset.tileHeight,
+      name: tileset.name,
+      externalFile: tileset.externalFile
+        ? {
+            id: tileset.externalFile.id,
+            tilesetId: tileset.externalFile.tilesetId,
+          }
+        : undefined,
+      rawTilesetData: cel.rawTilesetData
+        ? // We send this as a string over the wire instead of an array to reduce the output filesize.
+          cel.rawTilesetData.toString("hex")
+        : cel.rawTilesetData,
     })),
     palette: ase.palette
       ? {
@@ -83,6 +136,11 @@ function asepriteLoader(source) {
 				cel.rawCelData = new Uint8Array(cel.rawCelData.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 			});
 		});
+
+    data.tilesets.forEach(function (tileset) {
+      if (typeof tileset.rawTilesetData !== "string") return;
+      tileset.rawTilesetData = new Uint8Array(tileset.rawTilesetData.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+    });
 
 		module.exports = data;
 	`;

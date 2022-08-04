@@ -2,7 +2,6 @@
 # yarn lockfile v1
 
 
-"@suchipi/ase-parser@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@suchipi/ase-parser/-/ase-parser-0.0.10.tgz#ff336374d8e832b752ec845898668ff136e57876"
-  integrity sha512-8BKEET85tBJQ3jebZLlQzzabUILDyQPbPbx22mi1nJP81m63ufmELBtMuD+PUuYwkzSZtpgK7qbaTcz0vJa5lg==
+"@suchipi/ase-parser@https://github.com/jemc/ase-parser":
+  version "0.0.14"
+  resolved "https://github.com/jemc/ase-parser#64c4f88362c4c8a1127900dacf942887a82b1014"

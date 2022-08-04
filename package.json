@@ -4,6 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@suchipi/ase-parser": "^0.0.10"
+    "@suchipi/ase-parser": "https://github.com/jemc/ase-parser"
   }
 }
